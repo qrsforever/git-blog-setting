@@ -49,6 +49,8 @@ __粗体1__
 [id]: /img/avatar.jpg    "Title"
 
 ### 代码
+`one line`
+
 ```java
 for (int i = 0; i < 100; ++i)  
     printf(i);
@@ -64,8 +66,29 @@ for (int i = 0; i < 100; ++i)
     for (int i = 0; i < 100; ++i)  
         printf(i);
 
+### 段落
+> Hello World
+111111111111
+>> Hello World
+222222222222
+>>> Hello World
+```java
+for (int i = 0; i < 100; ++i)  
+    printf(i);
+```
+
+Normal
+
+
 ### 换行(行尾两个space)
 longggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg
 newlongggggggggggggggggggggg  
 gggggggggggggggggggggggggggg  
 gggggggggggggggggggggggggggg
+
+### 表格
+Name | Lunch order | Spicy      | Owes
+------- | ---------------- | ---------- | ---------:
+Joan  | saag paneer | medium | $11
+Sally  | vindaloo        | mild       | $14
+Erin   | lamb madras | HOT      | $5

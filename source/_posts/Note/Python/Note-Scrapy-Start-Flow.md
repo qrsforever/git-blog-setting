@@ -1,9 +1,8 @@
 ---
 title: Scrapy启动流程
-p: Python/Scrapy启动流程
-date: 2017-08-31 16:01:24
-tags: [Python]
-categories: [Python]
+date: 2017-08-31 16:01
+tags: [Python, Scrapy, Crawler]
+categories: [笔记]
 ---
 
 ## Scrapy 命令启动
@@ -16,6 +15,8 @@ categories: [Python]
 10     sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
 11     sys.exit(execute())
 ```
+
+<!-- more -->
 
 **scrapy/cmdline.py**:
 ```python

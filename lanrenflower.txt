@@ -17,17 +17,9 @@ npm install hexo-generator-json-content --save
 # 域名CNAME 自动生成 或者是将CNAME放到source目录下(推荐)
 npm install hexo-generator-cname --save
 
-# 替换github上的文件
-rm _config.yml # gitblog目录下的
-rm source # gitblog目录下的 或者修改_config.yml中source目录指定
 git clone git@github.com:qrsforever/hexo-blog.git
 
-ln -s hexo-blog/_config.yml _config.yml
-ln -s hexo-blog/source source
-ln -s hexo-blog/themes/hexo-theme-indigo themes/hexo-theme-indigo
-
 hexo new -p xxx/xxx xxx
-
 
 # 技巧: http://www.cnblogs.com/bxm0927/p/6927340.html
 

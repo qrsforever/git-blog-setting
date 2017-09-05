@@ -1,6 +1,6 @@
 ---
 title: 笔记-Twisted的Deffered机制
-date: 2017-09-01 16:41
+date: 2017-09-01 16:41:00
 tags: [Python, Twisted]
 categories: [笔记]
 

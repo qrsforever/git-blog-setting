@@ -6,7 +6,16 @@ sudo apt-get  install nodejs
 hexo init gitblog
 npm install hexo-deployer-git --save
 npm install hexo-renderer-less --save 
+# markdown
+npm install hexo-renderer-marked --save
+
+# markdown-it
+# npm un hexo-renderer-marked --save
+# npm install hexo-renderer-markdown-it --save
+# git评论
 npm install gitment --save 
+# 生成分享二维码
+npm install hexo-helper-qrcode --save
 # 站内搜索
 npm install hexo-generator-json-content --save
 
@@ -24,3 +33,5 @@ hexo new -p xxx/xxx xxx
 # 技巧: http://www.cnblogs.com/bxm0927/p/6927340.html
 
 # gitment: Authorization callback URL: 使用https 或者 http://www.lanrenflower.com
+
+# indigo 主题配合markdown, 代码长度最好不要超过135

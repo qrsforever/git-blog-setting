@@ -1,6 +1,6 @@
 ---
 title: Tutorial for Markdown
-date: 2017-08-30 15:31
+date: 2017-08-30 15:31:00
 tags: [Markdown]
 categories: [Tutorial]
 ---

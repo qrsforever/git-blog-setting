@@ -44,7 +44,7 @@ class _SignalReactorMixin(object):              class ReactorBase(object):    / 
                                             | impl
                                             v
                                    EPollReactor.doPoll()
-                                    poll(timeout, fds) 
+                                    poll(timeout, fds)
 
 
 ```
@@ -196,14 +196,14 @@ if __name__ == '__main__':
 
     print("main():thread[%s]" % threading.current_thread().name)
     reactor.callInThread(loadRemoteData, d.callback, d.errback, "http://www.baidu.com")
-    reactor.callLater(4, reactor.stop); 
+    reactor.callLater(4, reactor.stop);
     reactor.run()
 
 ```
 
 # 源码剖析
 
-两个主要文件:
+主要文件:
 1. defer.py
 2. base.py
 
@@ -213,7 +213,7 @@ if __name__ == '__main__':
 
 ```
 
-class Deferred                                                                         
+class Deferred
         |          callbacks: 存callback, _chainedTo: 将多个Deffered串成链                     reactor.callLater
         |                                                                                              |
         +---> addCallbacks() <---+----+----+                                                           |
@@ -241,7 +241,7 @@ class Deferred
         |              |                                                                               |
         |              | Normal:                                                                       |
         |              o----> item.callbak()    <------------------------------------------------------+
-        |              |                                   
+        |              |
         |              | Exception:
         |              o----> failure.Failure()
         |              |
@@ -334,8 +334,8 @@ class ReactorBase(object):
            |        |                                            o---> Deferred._runCallbacks()
            |        o---> runUntilCurrent()                      |
            |        |
-           |                 _pendingTimedCalls 
-           |                   队列中以时间排序  
+           |                 _pendingTimedCalls
+           |                   队列中以时间排序
            |
 
 
@@ -406,13 +406,96 @@ class ReactorBase(object):
 
 ### 3. reactor.callInThread()
 
-涉及关键的几个文件:
+涉及文件:
 
 文件 | 路径 |
-------- | :---------------- 
- base.py          |   /usr/local/lib/python3.4/dist-packages/twisted/internet
- defer.py         |   /usr/local/lib/python3.4/dist-packages/twisted/internet
- threadpool.py    |   /usr/local/lib/python3.4/dist-packages/twisted/python  
- _pool.py         |   /usr/local/lib/python3.4/dist-packages/twisted/_threads
- _team.py         |   /usr/local/lib/python3.4/dist-packages/twisted/_threads
- _threadworker.py |   /usr/local/lib/python3.4/dist-packages/twisted/_threads
+------- | :----------------
+base.py          |   /usr/local/lib/python3.4/dist-packages/twisted/internet
+defer.py         |   /usr/local/lib/python3.4/dist-packages/twisted/internet
+threadpool.py    |   /usr/local/lib/python3.4/dist-packages/twisted/python
+context.py       |   /usr/local/lib/python3.4/dist-packages/twisted/python
+_pool.py         |   /usr/local/lib/python3.4/dist-packages/twisted/_threads
+_team.py         |   /usr/local/lib/python3.4/dist-packages/twisted/_threads
+_threadworker.py |   /usr/local/lib/python3.4/dist-packages/twisted/_threads
+
+
+**context.py模块中call/get方法代理:**
+
+```
+
+def installContextTracker(ctr):
+    global theContextTracker
+    global call
+    global get
+
+    theContextTracker = ctr
+    call = theContextTracker.callWithContext
+    get = theContextTracker.getContext
+
+installContextTracker(ThreadedContextTracker())
+
+
+```
+
+
+**func函数线程调用图:**
+
+```
+
+ReactorBase    Deferred      ThreadPool    ContextTracker      Team        LockWorker      ThreadWorker      LocalStorage
+  |                             |                 |              |             |               |                   |
+  | callInThread                |                 |              |             |               |                   |
+  +---------------------------->|callInThread     |              |             |               |                   |
+  |                      func   |    |            |              |             |               |                   |
+  |                                  |            |     inContext|             |               |                   |
+  |                      callInThreadWithCallback--------------->|do           |               |                   |
+  |                                  |            |              |             |               |                   |
+  |                                  |            |              |             |               |                   |
+  |                                  |            |              +------------>|do             |                   |
+                                     |            |              |        work |               |                   |
+                                     |            |              |             |               |            append |
+                                     |            |              |             |---------------------------------->|working
+                                     |            |              |             |               |                   |
+                                     |            |              |                             |             pop   |
+                                     |            |              |<------------------------------------------------|
+    +----------------------+         |            |      _coordinateThisTask                   |
+    |  _coordinateThisTask |         |            |                 |        _pool.py          |
+    |                      |         |            |                 |            |             |
+    |   +--------------+   |         |            |          worker |------------------------->| __init__
+    |   |    doWork    |   |         |            |                 |    limitedWorkerCreator  |     |
+    |   | +----------+ |   |         |            |                 |            |             |     |
+    |   | | inContext| |   |         |            |                 |            |             |     |
+    |   | |  +----+  | |   |         |            |                 |       startThread <------------|
+    |   | |  |func|  | |   |         |            |                 |            |             |     |
+    |   | |  +----+  | |   |         |            |                 |            |             |     |
+    |   | +----------+ |   |         |            |                 |     Thread.start()------------>| work()
+    |   +--------------+   |         |            |                 |                          |          |
+    +----------------------+         |            |                 |                          |    while | get task
+                                     |            |       @worker.do|                          |          |<------<
+                                     |            |                 |------------------------->|do        |       |
+                                     |            |                 |                          |          |       |
+                                     |            |                 |                          | put task |       |
+                                     |            |                 |                          |--------> |       |
+                                     |            |                 |                          |          |       |
+                                     |            |                 |                                     |       |
+                                     |            |          doWork |<------------------------------ task()-------^
+                                     |            |            |    |                                     |
+                                     |            |            |    |                                     |
+                                  inContext<--------task() <---+    |                                   <===> thread end!
+                                      |           |                 |
+                                      | theWork() |                 | _recycleWorker
+                                      |---------->| context.call    |
+                                                         |
+                                                         |
+                                                         |
+                                                   callWithContext
+                                                         |
+                                                         |
+              func() <-----------------------------------+
+
+```
+过程: 初始化线程池ThreadPool --> 线程协调LockWorker --> 创建工作线程ThreadWorker --> 传递任务(team.do) --> 线程中处理任务 --> 回收
+线程
+
+原理: ThreadWorker维护Queue将传递过来的task加入队列, ThreadWorker在初始化时调用startThread()启动Thread.start, 到此一个新的
+线程被创建, 该新线程会执行ThreadWorker中work方法, work方法从Queue队列中取新的task去执行.

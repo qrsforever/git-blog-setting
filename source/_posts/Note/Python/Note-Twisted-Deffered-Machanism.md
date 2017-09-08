@@ -494,8 +494,9 @@ ReactorBase    Deferred      ThreadPool    ContextTracker      Team        LockW
               func() <-----------------------------------+
 
 ```
-过程: 初始化线程池ThreadPool --> 线程协调LockWorker --> 创建工作线程ThreadWorker --> 传递任务(team.do) --> 线程中处理任务 --> 回收
+
+**过程**: 初始化线程池ThreadPool --> 线程协调LockWorker --> 创建工作线程ThreadWorker --> 传递任务(team.do) --> 线程中处理任务 --> 回收
 线程
 
-原理: ThreadWorker维护Queue将传递过来的task加入队列, ThreadWorker在初始化时调用startThread()启动Thread.start, 到此一个新的
+**原理**: ThreadWorker维护Queue将传递过来的task加入队列, ThreadWorker在初始化时调用startThread()启动Thread.start, 到此一个新的
 线程被创建, 该新线程会执行ThreadWorker中work方法, work方法从Queue队列中取新的task去执行.

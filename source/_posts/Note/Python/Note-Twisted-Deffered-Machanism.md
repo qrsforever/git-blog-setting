@@ -1,4 +1,5 @@
 ---
+
 title: 笔记-Twisted的Deffered机制
 date: 2017-09-01 16:41:00
 tags: [Python, Twisted]
@@ -50,6 +51,8 @@ class _SignalReactorMixin(object):              class ReactorBase(object):    / 
 ```
 mainLoop()是由几层while嵌套实现以poll机制驱动整个程序运作.
 <!-- more -->
+
+----
 
 # Twisted介绍
 

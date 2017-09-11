@@ -1,8 +1,10 @@
 ---
+
 title: Dalvik与Art虚拟机-笔记片段
 date: 2017-09-05 10:07:00
 tags: [ Android, VM ]
 categories: [ 笔记 ]
+
 ---
 
 ```
@@ -90,6 +92,8 @@ app_main.cpp                                                           |
 
 ```
 <!-- more -->
+
+----
 
 # What are Dalvik and ART?
 Dalvik is a virtual machine designed to run applications and code written in Java. It's hard to explain this without getting very technical but suffice to say it's how apps are able to work on your Android operating system. Any application written in Java code needs a Java Virtual Machine to run. Dalvik is a mobile version of a Java Virtual Machine.

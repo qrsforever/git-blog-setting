@@ -4,6 +4,84 @@ date: 2017-08-31 16:01:00
 tags: [Python, Scrapy, Crawler]
 categories: [笔记]
 ---
+```
+                                                                                                    
+                            contain                                                                 contain                                             
+                     +------------------------------>  Settings  <-------------------------------------------------+    
+                     |                                    |                       settings.py                      |             
+                     |                                    | extend           +-------------------+                 |             
+               ScrapyCommand                              v                  | SPIDER_MIDDLEWARES|                 |             
+                ^      |                              BaseSettings           | ITEM_PIPELINES    |                 |             
+                |      |                                  |                  | SPIDER_MODULES    |                 |             
+                |      o---> add_options()                |                  +-------------------+                 |             
+         extend |      |                                  o---> setmodule()         |                              |             
+                |      |                                  |            |            |                              |             
+             Command   o---> process_options()            |            |------------+                              |             
+                |      |                                  o---> set <--|                                           |             
+                |      |                                  |            =                                           |             
+                |      o---> virtual run()                |                                                        |             
+                |                                                                                                  |                    
+         crawl  o---> run()                                                                                        |                             
+           |    |      |           CORE                      command:                                              |             
+           |    |      |                        1           +-------------------------------------------------+    |                                                      
+           |    =      +---> crawler_process.crawl()        |                                                 |    |  
+           |           |                                    | scrapy crawl --nolog s51job -o /tmp/result.csv  |    |                 
+           |           |                        4           |                                                 |    |                           
+           |           +---> crawler_process.start()        +-------------------------------------------------+    |  
+           |           |                                                                                           |             
+           |                                                                                                       |             
+           |                            extend                               crawlers 1:n                          |                                                 
+           o----> CrawlerProcess  ---------------------->  CrawlerRunner  ------------------------>  Crawler ------+             
+           |            |                                        |                  s51job         /   |                                                     
+           |            |                                        |           2                    /    |                CORE      
+                        o---> start()                            o---> create_crawler()          /     o---> crawl() <--------+                             
+                        |        |                               |           |                  /      |                      |
+                        |        |                               |           |                 /       |                      |
+                        |        +---> reactor.getThreadPool()   |           +----------------/        o---> _create_spider   |                  
+                        |        |                               |                     |               |                      |      
+                        |        |                               |                     |               |                      |
+                        |        +---> reactor.run()             |                     +------+        o---> _create_engine() |                   
+                        |        |                               o---> stop()                 |        |                      | 
+                        |        =                               |                            |        =                      |                     
+                        |                                        |                            |                               |
+                        o---> _stop_reactor                      o---> join()                SpiderLoader                     | 
+                        |                                        |                                |                           | 
+                        =                                        |       5                        |                           | 
+                                                                 o---> crawl()                    o---> _load_all_spiders()   |   
+                                                                 |       |                        |                           |
+                                                                 |       |                        |         3                 |
+                                                                 =       +---> crawler.crawl()    o---> load(name)            |                            
+                                                   S51jobSpider          |                |       |                           |
+                                                           \                              |       =                           |
+          Slot ---------------------------------+           \  is                         |                                   |
+           |                                    |            ------- _create_spider() <---+ spider                            |
+           |                                    |                                         |                              <----+
+           o---> nextcall()                     |                  6                      |                                     
+           |                                    |                    _create_engine() <---+ engine                            
+           |                                    |                 /                       |                                         
+           o---> scheduler()                    |             is /                        |                                         
+           |                                                    /                         =                                                  
+           |        8                      ExecutionEngine -----                    
+           o---> heartbeat()-----------+       |                                                                                    
+           |      |                    |       |             7                                                                
+           =      | task.LoopingCall() |       o---> open_spider()                   +------------------+
+                  +--------------------+       |                                     |                  |
+                                               |                                     |                  |
+                                               o---> start()                         |  Twisted Deffer  |     
+                                               |                                     |                  |
+                                               |                                     |                  |
+                                               o---> stop/pause/close()              +------------------+
+                                               |
+                                               |
+                                               o---> download/schedule/crawl()
+                                               |
+                                               |
+                                               o---> _next_request()
+                                               |
+                                               =
+                                             
+```
+<!-- more -->
 
 ## Scrapy 命令启动
 ### scrapy crawl 执行流程
@@ -15,8 +93,6 @@ categories: [笔记]
 10     sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
 11     sys.exit(execute())
 ```
-
-<!-- more -->
 
 **scrapy/cmdline.py**:
 ```python
@@ -81,7 +157,7 @@ categories: [笔记]
 155     else:
 156         cmd.run(args, opts)
 ```
-前大部分对参数和工程Setting解析处理, 最后_run_print_help -->_run_command --> cmd.run, 这里的cmd实际上就是crawl
+前大部分对参数和工程Setting解析处理, 最后_run_print\_help -->\_run\_command --> cmd.run, 这里的cmd实际上就是crawl
 
 **commands/crawl.py**:
 ```python
@@ -95,7 +171,7 @@ categories: [笔记]
 57         self.crawler_process.crawl(spname, **opts.spargs)
 58         self.crawler_process.start()
 ```
-继续调用crawler_process对象中crawl,start方法, 即CrawlerProcess, 其父类CrawlerRunner实现crawl方法
+继续调用crawler\_process对象中crawl,start方法, 即CrawlerProcess, 其父类CrawlerRunner实现crawl方法
 
 **crawler.py**:
 ```
@@ -113,8 +189,8 @@ categories: [笔记]
 198             spidercls = self.spider_loader.load(spidercls)
 199         return Crawler(spidercls, self.settings)
 ```
-crawler_or_spidercls spider名字, 经过spider_loader.load()转换为对应的spider对象(父类CrawlSpider), 这一步很关键, 自己实现的spider 继承CrawlSpider.  
-self.spider_loader: scrapy.spiderloader.SpiderLoader 
+crawler\_or\_spidercls spider名字, 经过spider\_loader.load()转换为对应的spider对象(父类CrawlSpider), 这一步很关键, 自己实现的spider 继承CrawlSpider.  
+self.spider\_loader: scrapy.spiderloader.SpiderLoader 
 
 **spiderloader.py**:
 ```
@@ -135,8 +211,8 @@ self.spider_loader: scrapy.spiderloader.SpiderLoader
 47                 for module in walk_modules(name):
 48                     self._load_spiders(module)
 ```
-SPIDER_MODULES: 当前工程settings.py变量
-_load_all_spiders: 加载所有自定义的spider
+SPIDER\_MODULES: 当前工程settings.py变量
+_load_all\_spiders: 加载所有自定义的spider
 
 
 **crawler.py**:
@@ -166,7 +242,7 @@ _load_all_spiders: 加载所有自定义的spider
 98         return self.spidercls.from_crawler(self, *args, **kwargs)
 ```
 
-self.spidercls.from_crawler调入到CrawlSpider 
+self.spidercls.from\_crawler调入到CrawlSpider 
 
 **spiders/crawl.py**:
 ```
@@ -283,6 +359,15 @@ ExecutionEngine 结构:
 268         slot.heartbeat.start(5)
     
 ```
-self.settings['SCHEDULER'] : scrapy.core.scheduler.Scheduler  
-self.settings['DOWNLOADER']: scrapy.core.downloader.Downloader
 
+**Setting**
+
+name | value
+----- | -----
+SCHEDULER | scrapy.core.scheduler.Scheduler  
+DOWNLOADER | scrapy.core.downloader.Downloader
+DUPEFILTER_CLASS | scrapy.dupefilters.RFPDupeFilter
+SCHEDULER_PRIORITY_QUEUE | queuelib.PriorityQueue
+SCHEDULER_DISK_QUEUE | scrapy.squeues.PickleLifoDiskQueue
+SCHEDULER_MEMORY_QUEUE | scrapy.squeues.LifoMemoryQueue
+SPIDER_LOADER_CLASS | scrapy.spiderloader.SpiderLoader

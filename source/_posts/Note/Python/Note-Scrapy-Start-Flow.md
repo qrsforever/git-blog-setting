@@ -26,7 +26,7 @@ categories: [笔记]
            |    |      |                        1           +-------------------------------------------------+    |
            |    =      +---> crawler_process.crawl()        |                                                 |    |
            |           |                                    | scrapy crawl --nolog s51job -o /tmp/result.csv  |    |
-           |           |                        4           |                                                 |    |
+           |           |                        5           |                                                 |    |
            |           +---> crawler_process.start()        +-------------------------------------------------+    |
            |           |                                                                                           |
            |                                                                                                       |
@@ -46,31 +46,31 @@ categories: [笔记]
                         |                                        |                            |                               |
                         o---> _stop_reactor                      o---> join()                SpiderLoader                     |
                         |                                        |                                |                           |
-                        =                                        |       5                        |                           |
+                        =                                        |       4                        |                           |
                                                                  o---> crawl()                    o---> _load_all_spiders()   |
-                                                                 |       |                        |                           |
-                                                                 |       |                        |         3                 |
-                                                                 =       +---> crawler.crawl()    o---> load(name)            |
-                                                   S51jobSpider          |                |       |                           |
-                                                           \                              |       =                           |
-          Slot ---------------------------------+           \  is                         |                                   |
-           |                                    |            ------- _create_spider() <---+ spider                            |
-           |                                    |                                         |                              <----+
-           o---> nextcall()                     |                  6                      |
-           |                                    |                    _create_engine() <---+ engine
-           |                                    |                 /                       |
-           o---> scheduler()                    |             is /                        |
-           |                                                    /                         =
-           |        8                      ExecutionEngine -----
-           o---> heartbeat()-----------+       |
-           |      |                    |       |             7
-           =      | task.LoopingCall() |       o---> open_spider()                   +------------------+
-                  +--------------------+       |                                     |                  |
-                                               |                                     |                  |
-                                               o---> start()                         |  Twisted Deffer  |
-                                               |                                     |                  |
-                                               |                                     |                  |
-                                               o---> stop/pause/close()              +------------------+
+                      extend              extend                 |       |                        |                           |
+               Spider <----- CrawlSpider <----- S51jobSpider     |       |                        |         3                 |
+                   |          |                          \       =       +---> crawler.crawl()    o---> load(name)            |
+                   |          |                           \              |                |       |                           |
+    start_urls <---o          o---> rules                  \                              |       =                           |
+                   |          |                             \  is                         |                                   |
+                   |          |                              ------- _create_spider() <---+ spider                            |
+       parse() <---o          o---> parse_start_url()                                     |                              <----+
+                   |          |                                    6                      |
+                   =          =                                      _create_engine() <---+ engine
+          Slot ---------------------------------+                 /                       |
+           |                                    |             is /                        |
+           |                                    |               /                         =
+           o---> nextcall()                ExecutionEngine -----
+           |                                   |
+           |                                   |             7
+           o---> scheduler()                   o---> open_spider()                   +------------------+
+           |                                   |                                     |                  |
+           |        8                          |                                     |                  |
+           o---> heartbeat()-----------+       o---> start()                         |  Twisted Deffer  |
+           |      |                    |       |                                     |                  |
+           =      | task.LoopingCall() |       |                                     |                  |
+                  +--------------------+       o---> stop/pause/close()              +------------------+
                                                |
                                                |
                                                o---> download/schedule/crawl()

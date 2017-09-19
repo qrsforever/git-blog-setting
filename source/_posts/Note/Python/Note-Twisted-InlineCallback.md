@@ -5,10 +5,10 @@ date: 2017-09-11 15:06:16
 tags: [ Twisted, Python ]
 categories: [ 笔记 ]
 
----
-
+---            
+                         
 <span id="code-flow"></span>
-```
+```        
                                                 d0.addCallback()
  +----------------------------------------------------------------------------------------------------------------------+
  |                                                                                                                      |
@@ -25,7 +25,7 @@ categories: [ 笔记 ]
  |     |              |           |                |                        |                      |                    |
  |     |              |           |                |d1                      |                      |                    |
  +-- d0|<-------------|           |                |                        |                      |                    |
-       |              |           |                |---callInThread         |                      |                    |
+       |              |           |return is deffer|---callInThread         |                      |                    |
        |        ----d1|<---------------------------|        |               |                      |                    |
        |       /                 -|                |        |               |                      |                    |
        |      /       |         / |                |        |               |                      |                    |
@@ -41,7 +41,7 @@ categories: [ 笔记 ]
        |              |           |                |                                               |                    |
        |              |           |                |d2                                             |                    |
        |              |           |                |                                               |                    |
-       |              |           |                |--callInThread                                 |                    |
+       |              |           |return is deffer|--callInThread                                 |                    |
        |        ----d2|<---------------------------|        |                                      |                    |
        |       /      |           |                |        |                                      |                    |
        |      /       |           |                |        |                                      |                    |
@@ -266,6 +266,9 @@ def returnValue(val):
     raise _DefGen_Return(val)
 
 ```
+
+g.send()返回如果是个Defferred, 需要对改Defferred注册cb,eb方法, 等待Defferred执行callbacks时会触发回调,并将结果传下来,再次调用
+\_inlineCallbacks(), 如果g.send()返回是非Defferred对象, 则直接将该返回值作为g.send()的参数, 继续...
 
 ## @defer.inlineCallbacks 展开
 

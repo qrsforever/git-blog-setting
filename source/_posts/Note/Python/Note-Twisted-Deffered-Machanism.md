@@ -14,12 +14,12 @@ reactor --> Linux
               |
               v
 class EPollReactor(posixbase.PosixReactorBase, posixbase._PollLikeMixin):
-                                    ^
+                                    △
                                     |
            +------------------------+                                                          _newTimedCalls
            |                                                                                       /  ^
 class PosixReactorBase(_SignalReactorMixin, _DisconnectSelectableMixin, ReactorBase):             /   |
-                                ^                                           ^                    /    |
+                                ^                                           △                    /    |
                                 |                                           |                   /     | 存放
               +-----------------+                         +-----------------+                  /      |
               |                                           |                    /---------------       |

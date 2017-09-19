@@ -6,15 +6,15 @@ categories: [笔记]
 ---
 ```
 
-                            contain                                                                 contain
+                                                                                                           
                      +------------------------------>  Settings  <-------------------------------------------------+
                      |                                    |                       settings.py                      |
-                     |                                    | extend           +-------------------+                 |
-               ScrapyCommand                              v                  | SPIDER_MIDDLEWARES|                 |
-                ^      |                              BaseSettings           | ITEM_PIPELINES    |                 |
+                     ◆                                    | extend           +-------------------+                 |
+               ScrapyCommand                              ▽                  | SPIDER_MIDDLEWARES|                 |
+                △      |                              BaseSettings           | ITEM_PIPELINES    |                 |
                 |      |                                  |                  | SPIDER_MODULES    |                 |
                 |      o---> add_options()                |                  +-------------------+                 |
-         extend |      |                                  o---> setmodule()         |                              |
+                |      |                                  o---> setmodule()         |                              |
                 |      |                                  |            |            |                              |
              Command   o---> process_options()            |            |------------+                              |
                 |      |                                  o---> set <--|                                           |
@@ -22,8 +22,8 @@ categories: [笔记]
                 |      o---> virtual run()                |                                                        |
                 |                                                                                                  |
          crawl  o---> run()                                                                                        |
-           |    |      |           CORE                      command:                                              |
-           |    |      |                        1           +-------------------------------------------------+    |
+           |    |      |                                     command:                                              |
+           |    |      |  ★                     1           +-------------------------------------------------+    |
            |    =      +---> crawler_process.crawl()        |                                                 |    |
            |           |                                    | scrapy crawl --nolog s51job -o /tmp/result.csv  |    |
            |           |                        5           |                                                 |    |
@@ -31,9 +31,9 @@ categories: [笔记]
            |           |                                                                                           |
            |                                                                                                       |
            |                            extend                               crawlers 1:n                          |
-           o----> CrawlerProcess  ---------------------->  CrawlerRunner  ------------------------>  Crawler ------+
+           o----> CrawlerProcess -----------------------▷  CrawlerRunner  ◆----------------------->  Crawler ◇-----+
            |            |                                        |                  s51job         /   |
-           |            |                                        |           2                    /    |                CORE
+           |            |                                        |           2                    /    | ★
                         o---> start()                            o---> create_crawler()          /     o---> crawl() <--------+
                         |        |                               |           |                  /      |                      |
                         |        |                               |           |                 /       |                      |
@@ -48,8 +48,8 @@ categories: [笔记]
                         |                                        |                                |                           |
                         =                                        |       4                        |                           |
                                                                  o---> crawl()                    o---> _load_all_spiders()   |
-                      extend              extend                 |       |                        |                           |
-               Spider <----- CrawlSpider <----- S51jobSpider     |       |                        |         3                 |
+                                                                 |       |                        |                           |
+               Spider ◁----- CrawlSpider ◁----- S51jobSpider     |       |                        |         3                 |
                    |          |                          \       =       +---> crawler.crawl()    o---> load(name)            |
                    |          |                           \              |                |       |                           |
     start_urls <---o          o---> rules                  \                              |       =                           |
@@ -57,45 +57,46 @@ categories: [笔记]
                    |          |                              ------- _create_spider() <---+ spider                            |
        parse() <---o          o---> parse_start_url()                                     |                              <----+
                    |          |                                    6                      |
-                   =          =                                      _create_engine() <---+ engine
-          Slot ---------------------------------+                 /                       |
-           |                                    |             is /                        |
-           |                                    |               /                         =
-           o---> nextcall()                ExecutionEngine -----
-           |                                   |
-           |                                   |             7
-           o---> scheduler()                   o---> open_spider()                   +------------------+
-           |                                   |                                     |                  |
-           |        8                          |                                     |                  |
-           o---> heartbeat()-----------+       o---> start()                         |  Twisted Deffer  |
-           |      |                    |       |                                     |                  |
-           =      | task.LoopingCall() |       |                                     |                  |
-                  +--------------------+       o---> stop/pause/close()              +------------------+
-                                               |
-                                               |
-                                               o---> download/schedule/crawl()
-                                               |
-                                               |
-                                               o---> _next_request()
-                                               |
-                                               =
+                   |          =                                      _create_engine() <---+ engine
+                   |                                              /                       |
+                   o---> start_requests()                     is /                        |
+                   |       yield ☜                              /                         =      
+                   =                       ExecutionEngine -----                    
+                                              ◆     |                               
+                                              |     | ★           7                 
+                                              |     o---> open_spider()              +------------------+
+                                              |     |                                |                  |
+        Slot <--------------------------------+     |                                |                  |
+         |                                          o---> start()                    |  Twisted Deffer  |
+         |                                          |                                |                  |
+         o---> nextcall()                           |                                |                  |
+         |                                          o---> stop/pause/close()         +------------------+
+         |                                          |                               
+         o---> scheduler()                          |                               
+         |                                          o---> download/schedule/crawl() 
+         |        8                                 |                               
+         o---> heartbeat()-----------+              |                               
+         |      |                    |              o---> _next_request()           
+         =      | task.LoopingCall() |              |                               
+                +--------------------+              =                               
+                                                                                    
+```                                                                                 
+<!-- more -->                                                                       
 
-```
-<!-- more -->
-
-## Scrapy 命令启动
-### scrapy crawl 执行流程
-**bin/scrapy**:
-```python
- 7 from scrapy.cmdline import execute
- 8
- 9 if __name__ == '__main__':
-10     sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
-11     sys.exit(execute())
-```
-
-**scrapy/cmdline.py**:
-```python
+                                                                                    
+## Scrapy 命令启动                                                              
+### scrapy crawl 执行流程                                                       
+**bin/scrapy**:                                                                     
+```python                                                                           
+ 7 from scrapy.cmdline import execute                                               
+ 8                                                                                  
+ 9 if __name__ == '__main__':                                                       
+10     sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])             
+11     sys.exit(execute())                                                          
+```                                                                                 
+                                                                                    
+**scrapy/cmdline.py**:                                                              
+```python                                                                           
  97 def execute(argv=None, settings=None):
  98     if argv is None:
  99         argv = sys.argv

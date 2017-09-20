@@ -5,15 +5,15 @@ date: 2017-09-11 15:06:16
 tags: [ Twisted, Python ]
 categories: [ 笔记 ]
 
----            
-                         
+---
+
 <span id="code-flow"></span>
-```        
+```
                                                 d0.addCallback()
  +----------------------------------------------------------------------------------------------------------------------+
  |                                                                                                                      |
  |                                                (g)                                                                   v
- |    main      inlineCallbacks              getRemoteData          loadRemoteData          loadRemoteData2         getResult 
+ |    main      inlineCallbacks              getRemoteData          loadRemoteData          loadRemoteData2         getResult
  |     |              |     \                      |                        |                      |                    |
  |     |              |      \inner                |                        |                      |                    |
  |     |              |       \                    |                        |                      |                    |
@@ -67,7 +67,7 @@ categories: [ 笔记 ]
        |                                                                                                                |
        |                                                                                                         3 <----|output
        |                                                                                                                =
-       =                                                          
+       =
 
 ```
 <!-- more -->
@@ -165,49 +165,49 @@ pop(0)始终弹出最早放进去的item(cb,eb), 也就是按addCallbacks的先�
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from twisted.internet import defer, reactor 
-  
-def loadRemoteData(callback):  
+from twisted.internet import defer, reactor
+
+def loadRemoteData(callback):
     print("---> loadRemoteData  callback: ", callback)
-    import time 
-    time.sleep(1)  
+    import time
+    time.sleep(1)
     callback(1) # 将1传给getResult, 只有callback之后才能触发callbacks结果
-  
-def loadRemoteData2(callback):  
+
+def loadRemoteData2(callback):
     print("---> loadRemoteData2 callback: ", callback)
-    import time  
-    time.sleep(1)  
-    callback(2)  
- 
-@defer.inlineCallbacks  
-def getRemoteData():  
-    d1 = defer.Deferred()  
+    import time
+    time.sleep(1)
+    callback(2)
+
+@defer.inlineCallbacks
+def getRemoteData():
+    d1 = defer.Deferred()
     # d1.callback 遍历回调所有callbacks
-    reactor.callInThread(loadRemoteData, d1.callback)  
+    reactor.callInThread(loadRemoteData, d1.callback)
     print("yiled d1: ", d1)
     r1 = yield d1
-    d2 = defer.Deferred()  
-    reactor.callInThread(loadRemoteData2, d2.callback)  
+    d2 = defer.Deferred()
+    reactor.callInThread(loadRemoteData2, d2.callback)
     print("yiled d2: ", d2)
-    r2 = yield d2  
-  
+    r2 = yield d2
+
     # 主动抛出_DefGen_Return异常, 异常的内容就是r1+r2
     defer.returnValue(r1+r2) # 函数中调用raise
     # 或者return导致抛StopIteration
     # return r1 + r2
-  
-def getResult(v):  
-    print ("result = ", v)  
 
-if __name__ == '__main__':  
-    d0 = getRemoteData()  
+def getResult(v):
+    print ("result = ", v)
+
+if __name__ == '__main__':
+    d0 = getRemoteData()
     print("main d0 : ", d0)
-    d0.addCallback(getResult)  
-  
-    #  import time 
+    d0.addCallback(getResult)
+
+    #  import time
     #  time.sleep(4)
     # 以下两行可以使用sleep替换, 不影响功能测试
-    reactor.callLater(4, reactor.stop);   
+    reactor.callLater(4, reactor.stop);
     reactor.run()
 
 ```
@@ -222,7 +222,7 @@ main d0 :  <Deferred at 0x7f6b2a57fe10>
 yiled d2:  <Deferred at 0x7f6b25f75668>
 ---> loadRemoteData2 callback:  <bound method Deferred.callback of <Deferred at 0x7f6b25f75668>>
 result =  3
-twisted$ 
+twisted$
 
 ```
 
@@ -317,17 +317,17 @@ g.send()返回如果是个Defferred, 需要对改Defferred注册cb,eb方法, 等
 
 ```
 
-def getRemoteData():  
-    d1 = defer.Deferred()  
+def getRemoteData():
+    d1 = defer.Deferred()
     # d1.callback 遍历回调所有callbacks
-    reactor.callInThread(loadRemoteData, d1.callback)  
+    reactor.callInThread(loadRemoteData, d1.callback)
     print("yiled d1: ", d1)
     r1 = yield d1
-    d2 = defer.Deferred()  
-    reactor.callInThread(loadRemoteData2, d2.callback)  
+    d2 = defer.Deferred()
+    reactor.callInThread(loadRemoteData2, d2.callback)
     print("yiled d2: ", d2)
-    r2 = yield d2  
-  
+    r2 = yield d2
+
     # 主动抛出_DefGen_Return异常, 异常的内容就是r1+r2
     defer.returnValue(r1+r2) # 函数中调用raise
     # 或者return导致抛StopIteration
@@ -343,7 +343,7 @@ def inlineCallbacks.unwindGenerator(*args, **kwargs):
         raise TypeError()
     return _inlineCallbacks(None, gen, Deferred())
 
-d0 = inlineCallbacks.unwindGenerator()  
+d0 = inlineCallbacks.unwindGenerator()
 
 
 ```
@@ -355,9 +355,9 @@ d0 = inlineCallbacks.unwindGenerator()
 
 查看源码会发现**\_inlineCallbacks()**函数所有的return都是deferred变量, 这个变量是在InlineCallBacks的闭包函数里传入的Deffered(),实
 际上这个值就是上层函数中的d0对象, d0对象在哪创建的疑问解决了; **\_inlineCallbacks()**里虽然有while 1循环, 但是调用它并不会使其阻塞
-,原因就是return直接返回. 
+,原因就是return直接返回.
 
-调用路线: result = g.send(result) --> if isinstance(result, Deferred) --> result.addBoth(gotResult) --> return deferred; 
+调用路线: result = g.send(result) --> if isinstance(result, Deferred) --> result.addBoth(gotResult) --> return deferred;
 
 根据生成器规则(r = yield x), send的参数会传给r(第一次特殊None), 生成器函数返回x(=g.send()).
 第一次send:

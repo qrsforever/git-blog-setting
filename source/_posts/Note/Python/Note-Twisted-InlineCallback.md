@@ -112,6 +112,49 @@ categories: [ 笔记 ]
 addCallBacks只是把cbs存放到self.callbacks变量中. 一般在调用callback之前会处理好需要的数据(eg: Request), 调用时把结果result作为
 参数传给之前加进来的callbacks.
 
+
+## runCallbacks()
+
+```
+
+  while current.callbacks:
+      item = current.callbacks.pop(0)
+      callback, args, kw = item[
+          isinstance(current.result, failure.Failure)]
+      args = args or ()
+      kw = kw or {}
+      ...
+      try:
+          current._runningCallbacks = True
+          try:
+              current.result = callback(current.result, *args, **kw)
+              if current.result is current:
+                ...
+          finally:
+              current._runningCallbacks = False
+      except:
+          current.result = failure.Failure(captureVars=self.debug)
+      else:
+          if isinstance(current.result, Deferred):
+              resultResult = getattr(current.result, 'result', _NO_RESULT)
+              if resultResult is _NO_RESULT or isinstance(resultResult, Deferred) or current.result.paused:
+                  ...
+                  break
+              else:
+                  # Yep, it did.  Steal it.
+                  current.result.result = None
+                  # Make sure _debugInfo's failure state is updated.
+                  if current.result._debugInfo is not None:
+                      current.result._debugInfo.failResult = None
+                  current.result = resultResult
+
+```
+
+pop(0)始终弹出最早放进去的item(cb,eb), 也就是按addCallbacks的先入先出的顺序, 这个很关键, 以为前一个callback回调的返回是下一个
+回调函数的输入.
+>  current.result = callback(current.result, *args, **kw)
+
+
 # InlineCallbacks 实例
 
 ## 实例源码

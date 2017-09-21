@@ -3,7 +3,7 @@
 title: Scrapy之Requst URLs处理流程
 date: 2017-09-20 20:49:41
 tags: [Python, Scrapy, Crawler]
-categories: [ 笔记 ]
+categories: [ Note ]
 
 ---
 
@@ -362,12 +362,12 @@ URL调度:
                             |
 
 ```
+
 # 疑问: 
-在open_spider函数的最后两行代码:
-```
-slot.nextcall.schedule()
-slot.heartbeat.start(5)
-```
+
+在open\_spider函数的最后两行代码:
+>  slot.nextcall.schedule()
+>  slot.heartbeat.start(5)
+
 分析源码之后发现这两行的动作有些重复, nextcall.schedule()自身也能实现loop, 如上图(Loop-1), heartbeat.start(5)(Loop-2)是不是多余的?
 这个疑问留到以后解决
-

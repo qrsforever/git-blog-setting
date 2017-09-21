@@ -3,7 +3,7 @@
 title: Dalvik与Art虚拟机-笔记片段
 date: 2017-09-05 10:07:00
 tags: [ Android, VM ]
-categories: [ 笔记 ]
+categories: [ Note ]
 
 ---
 

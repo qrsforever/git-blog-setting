@@ -3,7 +3,7 @@
 title: Twisted InlineCallback 机制
 date: 2017-09-11 15:06:16
 tags: [ Twisted, Python ]
-categories: [ 笔记 ]
+categories: [ Note ]
 
 ---
 

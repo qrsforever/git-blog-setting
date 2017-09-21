@@ -1,12 +1,15 @@
 ---
+
 title: Scrapy之命令行启动流程
 date: 2017-08-31 16:01:00
 tags: [Python, Scrapy, Crawler]
 categories: [Note]
+
 ---
+
 ```
 
-                                                                                                           
+
                      +------------------------------>  Settings  <-------------------------------------------------+
                      |                                    |                       settings.py                      |
                      ◆                                    | extend           +-------------------+                 |
@@ -60,10 +63,10 @@ categories: [Note]
                    |          =                                      _create_engine() <---+ engine
                    |                                              /                       |
                    o---> start_requests()                     is /                        |
-                   |       yield ☜                              /                         =      
-                   =                       ExecutionEngine -----                    
-                                              ◆     |                               
-                                              |     | ★           7                 
+                   |       yield ☜                              /                         =
+                   =                       ExecutionEngine -----
+                                              ◆     |
+                                              |     | ★           7
                                               |     o---> open_spider()              +------------------+
                                               |     |                                |                  |
         Slot <--------------------------------+     |                                |                  |
@@ -71,32 +74,33 @@ categories: [Note]
          |                                          |                                |                  |
          o---> nextcall()                           |                                |                  |
          |                                          o---> stop/pause/close()         +------------------+
-         |                                          |                               
-         o---> scheduler()                          |                               
-         |                                          o---> download/schedule/crawl() 
-         |        8                                 |                               
-         o---> heartbeat()-----------+              |                               
-         |      |                    |              o---> _next_request()           
-         =      | task.LoopingCall() |              |                               
-                +--------------------+              =                               
-                                                                                    
-```                                                                                 
-<!-- more -->                                                                       
+         |                                          |
+         o---> scheduler()                          |
+         |                                          o---> download/schedule/crawl()
+         |        8                                 |
+         o---> heartbeat()-----------+              |
+         |      |                    |              o---> _next_request()
+         =      | task.LoopingCall() |              |
+                +--------------------+              =
 
-                                                                                    
-## Scrapy 命令启动                                                              
-### scrapy crawl 执行流程                                                       
-**bin/scrapy**:                                                                     
-```python                                                                           
- 7 from scrapy.cmdline import execute                                               
- 8                                                                                  
- 9 if __name__ == '__main__':                                                       
-10     sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])             
-11     sys.exit(execute())                                                          
-```                                                                                 
-                                                                                    
-**scrapy/cmdline.py**:                                                              
-```python                                                                           
+```
+
+<!-- more -->
+
+
+## Scrapy 命令启动
+### scrapy crawl 执行流程
+**bin/scrapy**:
+```python
+ 7 from scrapy.cmdline import execute
+ 8
+ 9 if __name__ == '__main__':
+10     sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+11     sys.exit(execute())
+```
+
+**scrapy/cmdline.py**:
+```python
  97 def execute(argv=None, settings=None):
  98     if argv is None:
  99         argv = sys.argv

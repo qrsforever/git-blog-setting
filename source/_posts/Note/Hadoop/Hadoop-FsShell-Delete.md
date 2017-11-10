@@ -38,7 +38,7 @@ categories: [ Note ]
                                 /
                                /
                               v      fs                                          |
-                         PathData c------------------------------------------+   |
+                         PathData ◇ -----------------------------------------+   |
                             ◆                                                |   | 4
                             |path                                            |   o---> createFileSystem()
                             |             URI -- hdfs                        |   |                 |
@@ -53,7 +53,7 @@ categories: [ Note ]
                                       |                                          |                 |
                                       |                                          |                 |
                                       |                    LocalFileSystem ------+------  DistributedFileSystem
-                                                                                                  |        ◇
+                                                                                                  |        ◇ 
                                                                                                5  |        |
                                                                       --------- initialize() <--- o        | dfs
                                                                      /                            |        |
@@ -173,3 +173,5 @@ ProtocolProxy  <----------------------------------------------------------------
                                                                   |---> call.setRpcResponse()
                                                                   |
 ```
+
+实质: Java动态代理 + ProtocolBuffer

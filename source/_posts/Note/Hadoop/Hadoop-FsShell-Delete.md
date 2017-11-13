@@ -64,14 +64,14 @@ categories: [ Note ]
      |              o---> delete()                  \           /                                 |        |
      |              |                                \         /                                           |
      |                                     namenode   \       /                                            |
-     |                                                 ◇   6 /                                             |
+     |                                                 ◇     /                                             |
      |                                                DFSClient <------------------------------------------+
+     |                  NameNodeProxies.createProxy()   |
+     |                                       \          |
+     |                                        \         o---> delete()
+     |                                         \     6  |
+     |                                          init<---o
      |                                                  |
-     |                                                  |
-     |                                                  o---> delete()
-     |                                                  |
-     |                                                  |
-     |
      +-----------------------------------------------------------------------+
                                                                              |
                        <T>                                                   |
@@ -88,10 +88,10 @@ categories: [ Note ]
                     |                       new |    |              |             |
                     o---> createNonHAProxy() ---+    |              |             o---> delete()
                     |            \                   |              |             |        |
-                    | 7           \                  |              |             |        |  11
+                    |             \   7.2            |              |             |        |  11
                     o---> createNNProxyWithClientProtocol()         |             |        |---> rpcProxy.delete()
                     |        |                                      |
-                    |        |                                      | rpcProxy (is a proxy of ClientNamenodeProtocolPB)
+                7.1 |        |                                      | rpcProxy (is a proxy of ClientNamenodeProtocolPB)
  createProxy()  <---o        |---> RPC.setProtocolEngine()          |     |
                     |        |                    \                 |     +----------------------------------------+
                              |                     \ set            |                                              |

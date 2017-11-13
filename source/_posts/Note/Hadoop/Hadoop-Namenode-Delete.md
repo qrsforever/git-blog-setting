@@ -121,29 +121,29 @@ categories: [ Note ]
                    |                                         |                                 o--> delete()                  | |
                    |                                         |                                 |                              | |
                    v                         @ProtocolInfo(Name, Ver)                          |                              | |
-    ClientNamenodeProtocol                   ClientNamenodeProtocolPB ◁ -------- ClientNamenodeProtocolServerSideTranslatorPB | |                   
+    ClientNamenodeProtocol                   ClientNamenodeProtocolPB ◁ -------- ClientNamenodeProtocolServerSideTranslatorPB | |
          |                                         |                                /                          ◆              | |
          |                                         |                 +-------------/                           |              | |
          |      BlockingInterface ◁ ---------------+                 |                                         | server       | |
          |            △                                              |                                         +----------------+
-         |            |                                              v                                                        | 
-         |            |                             BlockingService(impl) <---------------------------------------------------+ 
-         |       BlockingStub  <----+                 ^      |                                                                  
-         |                          |                 |      |                                                                  
-         |                          | new             |      o--> getDescriptorForType()                                        
-         |                          |                 |      |                                                                  
-         o---> newBlockingStub() ---+                 |      |                                                                   
-         |                                            |      o--> getRequestPrototype()                                          
-         |                                            |      |                                                                   
-         o---> newReflectiveBlockingService()---------+      |                                                                   
-                                                             o--> getResponsePrototype()                                         
-                                                             |                                                                   
-                                                             |                                                                   
-                                                             o--> callBlockingMethod()                                           
-                                                             |        |                                                          
-                                                             |        |  10                                                      
-                                                             |        o--> impl.delete()                                         
-  ```                                                                                    
+         |            |                                              v                                                        |
+         |            |                             BlockingService(impl) <---------------------------------------------------+
+         |       BlockingStub  <----+                 ^      |
+         |                          |                 |      |
+         |                          | new             |      o--> getDescriptorForType()
+         |                          |                 |      |
+         o---> newBlockingStub() ---+                 |      |
+         |                                            |      o--> getRequestPrototype()
+         |                                            |      |
+         o---> newReflectiveBlockingService()---------+      |
+                                                             o--> getResponsePrototype()
+                                                             |
+                                                             |
+                                                             o--> callBlockingMethod()
+                                                             |        |
+                                                             |        |  10
+                                                             |        o--> impl.delete()
+```
 
 Delete操作从Namenode类出发经过NameNodeRpcServer启动各种服务, 最终回到NameNodeRpcServer中的delete方法.
 ipc.Server: 负责网络收发 (基类)

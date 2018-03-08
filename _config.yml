@@ -118,5 +118,17 @@ sitemap:
 
 # Markdown-it config
 ## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki/
-markdown: 'default'
+#markdown: 'default'
 
+# GFM: https://github.com/markedjs/marked
+# Hexo-renderer-marked
+marked:
+  gfm: true
+  pedantic: false
+  sanitize: false
+  tables: true
+  breaks: true
+  smartLists: true
+  smartypants: true
+  modifyAnchors: ''
+  autolink: true

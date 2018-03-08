@@ -7,11 +7,11 @@ hexo init gitblog
 npm install hexo-deployer-git --save
 npm install hexo-renderer-less --save 
 # markdown
-# npm install hexo-renderer-marked --save
+npm install hexo-renderer-marked --save
 
 # markdown-it
-npm un hexo-renderer-marked --save
-npm install hexo-renderer-markdown-it --save
+# npm un hexo-renderer-marked --save
+# npm install hexo-renderer-markdown-it --save
 
 # git评论
 npm install gitment --save 

@@ -36,3 +36,9 @@ hexo new -p xxx/xxx xxx
 # gitment: Authorization callback URL: 使用https 或者 http://www.lanrenflower.com
 
 # indigo 主题配合markdown, 代码长度最好不要超过135
+
+
+hexo clean
+hexo g
+hexo s
+hexo d

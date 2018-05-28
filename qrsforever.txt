@@ -33,7 +33,7 @@ hexo new -p xxx/xxx xxx
 
 # 技巧: http://www.cnblogs.com/bxm0927/p/6927340.html
 
-# gitment: Authorization callback URL: 使用https 或者 http://www.lanrenflower.com
+# gitment: Authorization callback URL: 使用https
 
 # indigo 主题配合markdown, 代码长度最好不要超过135
 

@@ -37,6 +37,9 @@ hexo new -p xxx/xxx xxx
 
 # indigo 主题配合markdown, 代码长度最好不要超过135
 
+# 支持Latex
+https://www.jianshu.com/p/68e6f82d88b7
+https://shomy.top/2016/10/22/hexo-markdown-mathjax/
 
 hexo clean
 hexo g

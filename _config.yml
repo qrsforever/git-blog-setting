@@ -123,13 +123,31 @@ sitemap:
 
 # GFM: https://github.com/markedjs/marked
 # Hexo-renderer-marked
-marked:
-  gfm: true
-  pedantic: false
-  sanitize: false
-  tables: true
-  breaks: true
-  smartLists: true
-  smartypants: true
-  modifyAnchors: 1
-  autolink: true
+ 
+# marked:
+#       gfm: true
+#       pedantic: false
+#       sanitize: false
+#       tables: true
+#       breaks: true
+#       smartLists: true
+#       smartypants: true
+#       modifyAnchors: 1
+#       autolink: true
+# 
+# kramed:
+#     gfm: true
+#     pedantic: false
+#     sanitize: false
+#     tables: true
+#     breaks: true
+#     smartLists: true
+#     smartypants: true
+
+mathjax:
+    enable: true
+
+# use pandoc instand of rander / kramed: http://pandoc.org/installing.html
+# sudo apt-get install texlive
+pandoc:
+    mathEngine: mathjax

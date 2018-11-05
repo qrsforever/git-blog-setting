@@ -107,12 +107,18 @@ uyan_uid: false
 # 是否开启网易云跟帖， 填写app sdk中的app key
 wangyi_ygt: false
 # 是否使用 gitment，https://github.com/imsun/gitment
+# 参考配置: https://segmentfault.com/a/1190000016286358
 # gitment: false
 gitment:
+    enable: true
+    mint: true
+    count: true
+    lazy: false
+    cleanly: false
     owner: qrsforever
     repo: qrsforever.github.io
     client_id: b75c05b0902accbd0082
-    client_secret: 27bef379ce727499f979e56a720c9da4788e7b52
+    client_secret: aae960d31c38e100a79417a6f2fa6c20f2618397
 
 # 规范网址
 # 让搜索引擎重定向你的不同域名、不同子域、同域不同目录的站点到你期望的路径

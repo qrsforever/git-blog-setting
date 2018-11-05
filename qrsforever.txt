@@ -40,6 +40,7 @@ hexo new -p xxx/xxx xxx
 # 支持Latex
 https://www.jianshu.com/p/68e6f82d88b7
 https://shomy.top/2016/10/22/hexo-markdown-mathjax/
+# 注意patch/mathjax.html的替换, 原cdn已经不支持了 (https://github.com/github/pages-gem/issues/307)
 
 hexo clean
 hexo g

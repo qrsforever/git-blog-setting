@@ -17,7 +17,9 @@ def main(asset_dir, jupyter_file):
     html_exporter.template_file = 'full'
 
     # lidong add
+    import random
     import os
+    num = random.randint(1111, 9999)
     dn = os.path.dirname(asset_dir)
     if os.path.exists(dn + ".md"):
         dn = os.path.dirname(dn)
@@ -30,14 +32,14 @@ def main(asset_dir, jupyter_file):
     # lidong mod, jquery only use 2.0.0, other have some problems
     template = """
 <script src="http://code.jquery.com/jquery-2.0.0.js"></script>
-<iframe id="ipynb" marginheight="0" marginwidth="0" frameborder="0" width="100%%" srcdoc="%s" style="scrolling:no;">
+<iframe id="ipynb-%d" marginheight="0" marginwidth="0" frameborder="0" width="100%%" srcdoc="%s" style="scrolling:no;">
 </iframe>
 <script>
-$("#ipynb").load( function() {
-document.getElementById('ipynb').height=$("#ipynb").contents().find("#notebook").height()+100;
+$("#ipynb-%d").load( function() {
+document.getElementById('ipynb-%d').height=$("#ipynb-%d").contents().find("#notebook").height()+100;
 })
 </script> 
-    """ % restr.replace("\"", "'")
+    """ % (num, restr.replace("\"", "'"), num, num, num)
     # print(sys.version)
     # template = '2341'
     print(re.sub(r'<a.*?\/a>', '', template))

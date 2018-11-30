@@ -31,12 +31,17 @@ def main(asset_dir, jupyter_file):
     restr = "%s" % (str(html_exporter.from_filename(jupyter_file)[0]))
     # lidong mod, jquery only use 2.0.0, other have some problems
     template = """
-<script src="http://code.jquery.com/jquery-2.0.0.js"></script>
+<script src="//code.jquery.com/jquery-2.0.0.js"></script>
 <iframe id="ipynb-%d" marginheight="0" marginwidth="0" frameborder="0" width="100%%" srcdoc="%s" style="scrolling:no;">
 </iframe>
 <script>
 $("#ipynb-%d").load( function() {
-document.getElementById('ipynb-%d').height=$("#ipynb-%d").contents().find("#notebook").height()+100;
+var h = $("#ipynb-%d").contents().find("#notebook").height();
+console.log(h);
+if (h < 100) {
+    h = 800;
+}
+document.getElementById('ipynb-%d').height=h + 100;
 })
 </script> 
     """ % (num, restr.replace("\"", "'"), num, num, num)
@@ -45,3 +50,5 @@ document.getElementById('ipynb-%d').height=$("#ipynb-%d").contents().find("#note
     print(re.sub(r'<a.*?\/a>', '', template))
 
 main(sys.argv[1], sys.argv[2])
+
+#  document.getElementById('ipynb-%d').height=$("#ipynb-%d").contents().find("#notebook").height()+100;

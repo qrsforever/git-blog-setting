@@ -28,4 +28,6 @@ Material Design 风格的Hexo主题，基于 Hexo 3.0+ 制作。 [Preview](http:
 
 [ChangeLog](https://github.com/yscoder/hexo-theme-indigo/releases)
 
-27bef379ce727499f979e56a720c9da4788e7b52
+## OtherVersion
+
+* [vuepress-theme-indigo](https://github.com/yscoder/vuepress-theme-indigo)

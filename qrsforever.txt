@@ -42,6 +42,11 @@ https://www.jianshu.com/p/68e6f82d88b7
 https://shomy.top/2016/10/22/hexo-markdown-mathjax/
 # 注意patch/mathjax.html的替换, 原cdn已经不支持了 (https://github.com/github/pages-gem/issues/307)
 
+# 图片
+# http://www.xinxiaoyang.com/programming/2016-11-25-hexo-image-bug/
+# 方式一: {% asset_img [class names] slug [width] [height] [title text [alt text]]%}
+# 方式二: hexo-asset-image
+
 hexo clean
 hexo g
 hexo s

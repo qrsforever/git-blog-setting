@@ -12,7 +12,7 @@ hexo.extend.tag.register('asset_jupyter', function (args) {
 
   return co(function *() {
     const PYTHON_ENV = args[0]
-    const jupyterFile = path.join(post.asset_dir, args[1])
+    // const jupyterFile = path.join(post.asset_dir, args[1])
     // console.log(jupyterFile)
     // lidong mod.
     // let html = yield exec(`${PYTHON_ENV} ${PY_SCRIPT} ${jupyterFile}`, {

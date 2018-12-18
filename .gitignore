@@ -6,5 +6,5 @@ node_modules/
 public/
 .deploy*/
 source/_drafts/*
-source/_posts/code_blog_post
 source/assets
+source/_posts

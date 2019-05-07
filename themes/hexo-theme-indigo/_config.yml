@@ -24,7 +24,8 @@ menu:
     weibo:
         url: http://weibo.com/705723886/
         target: _blank
-    stocktech:
+    eye:
+        text: Stocktech
         url: https://zytforever.github.io
         target: _blank
 

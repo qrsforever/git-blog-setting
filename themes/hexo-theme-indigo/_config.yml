@@ -24,6 +24,9 @@ menu:
     weibo:
         url: http://weibo.com/705723886/
         target: _blank
+    stocktech:
+        url: https://zytforever.github.io
+        target: _blank
 
 # 头像url
 avatar: /img/avatar.jpg

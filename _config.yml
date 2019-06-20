@@ -39,8 +39,9 @@ render_drafts: false
 post_asset_folder: true
 relative_link: false
 future: true
+# using pandoc --standalone
 highlight:
-  enable: true
+  enable: false
   line_number: true
   auto_detect: false
   tab_replace:
@@ -117,6 +118,19 @@ jsonContent:
 sitemap:
       path: sitemap.xml
 
+mathjax:
+    enable: true
+
+# use pandoc instand of rander / kramed: http://pandoc.org/installing.html
+# sudo apt-get install texlive
+pandoc:
+    meta:
+        - pagetitle: " "
+    extra:
+        - standalone:
+        - highlight-style: haddock
+    mathEngine: mathjax
+
 # Markdown-it config
 ## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki/
 #markdown: 'default'
@@ -143,14 +157,6 @@ sitemap:
 #     breaks: true
 #     smartLists: true
 #     smartypants: true
-
-mathjax:
-    enable: true
-
-# use pandoc instand of rander / kramed: http://pandoc.org/installing.html
-# sudo apt-get install texlive
-pandoc:
-    mathEngine: mathjax
 
 # support jupter-notebook: https://github.com/qiliux/hexo-jupyter-notebook
 # sudo apt-get install pandoc

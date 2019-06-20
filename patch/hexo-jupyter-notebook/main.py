@@ -37,11 +37,10 @@ def main(asset_dir, jupyter_file):
 <script>
 $("#ipynb-%d").load( function() {
 var h = $("#ipynb-%d").contents().find("#notebook").height();
-console.log(h);
 if (h < 100) {
     h = 800;
 }
-document.getElementById('ipynb-%d').height=h + 100;
+document.getElementById('ipynb-%d').height=h + 200;
 })
 </script> 
     """ % (num, restr.replace("\"", "'"), num, num, num)

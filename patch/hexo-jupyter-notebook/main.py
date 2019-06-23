@@ -32,7 +32,7 @@ def main(asset_dir, jupyter_file):
     # lidong mod, jquery only use 2.0.0, other have some problems
     template = """
 <script src="//code.jquery.com/jquery-2.0.0.js"></script>
-<iframe id="ipynb-%d" marginheight="0" marginwidth="0" frameborder="0" width="100%%" srcdoc="%s" style="scrolling:no;">
+<iframe id="ipynb-%d" marginheight="0" marginwidth="0" frameborder="0" height="100%%" width="100%%" srcdoc="%s" scrolling="no">
 </iframe>
 <script>
 $("#ipynb-%d").load( function() {

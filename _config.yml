@@ -123,12 +123,15 @@ mathjax:
 
 # use pandoc instand of rander / kramed: http://pandoc.org/installing.html
 # sudo apt-get install texlive
+# css: https://gist.githubusercontent.com/killercup/5917178/raw/40840de5352083adb2693dc742e9f75dbb18650f/pandoc.css
 pandoc:
     meta:
         - pagetitle: " "
     extra:
         - standalone:
         - highlight-style: haddock
+        - number-offset: 1
+        - css: /css/pandoc.css
     mathEngine: mathjax
 
 # Markdown-it config

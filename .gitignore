@@ -9,4 +9,5 @@ source/_drafts/*
 source/assets
 source/_posts
 
+package-lock.json
 themes/hexo-theme-indigo_org/

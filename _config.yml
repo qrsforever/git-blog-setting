@@ -128,7 +128,7 @@ pandoc:
     extra:
         - standalone:
         - highlight-style: haddock
-        - number-offset: 1
+        - number-offset: 0
         - css: /css/pandoc.css
     mathEngine: mathjax
 

@@ -7,6 +7,7 @@
 # 升级
 # curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 # sudo apt-get install -y nodejs
+# or npm update -g ; npm install -g n; n latest
 
 
 # download hexo https://hexo.io/
@@ -55,7 +56,12 @@ https://shomy.top/2016/10/22/hexo-markdown-mathjax/
 # 图片
 # http://www.xinxiaoyang.com/programming/2016-11-25-hexo-image-bug/
 # 方式一: {% asset_img [class names] slug [width] [height] [title text [alt text]]%}
-# 方式二: hexo-asset-image
+# 方式二: hexo-asset-image 
+
+# 使用国内镜像                                                 
+npm config set registry https://registry.npm.taobao.org
+npm config get registry
+
 
 hexo clean
 hexo g

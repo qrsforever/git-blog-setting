@@ -22,7 +22,6 @@ hexo.extend.tag.register('asset_jupyter', function (args) {
         PYTHONIOENCODING: 'utf8'
       }
     })
-
     // console.log(html.length)
     return html
   })

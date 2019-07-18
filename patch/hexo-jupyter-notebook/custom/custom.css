@@ -1,0 +1,15 @@
+/* config_dir: custom/custom.css, see nbconvert/preprocessors/csshtmlheader.py */
+
+/* css by did id */
+
+div#notebook-container {
+    width: 100%;
+}
+
+/* css by did class*/
+
+div.border-box-sizing {
+    min-width:600px;
+    max-width:1200px;
+    white-space:nowrap;
+}

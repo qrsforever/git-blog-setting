@@ -9,5 +9,6 @@
 cp ./hexo-renderer-mathjax/mathjax.html ../node_modules/hexo-renderer-mathjax/
 cp ./hexo-jupyter-notebook/main.py ../node_modules/hexo-jupyter-notebook/
 cp ./hexo-jupyter-notebook/index.js ../node_modules/hexo-jupyter-notebook/
+cp -arf ./hexo-jupyter-notebook/custom ../node_modules/hexo-jupyter-notebook/
 # cp ./gitment/gitment.js ../node_modules/gitment/dist/
 # 或者修改：themes/hexo-theme-indigo/layout/_partial/plugins/gitment.ejs

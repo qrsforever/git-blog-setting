@@ -19,26 +19,26 @@ pre code {
     margin-right: auto;
 }
 
-div.figure{
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-  margin: 36px auto;
+.figure {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin: 36px auto;
 }
 
-.nobreak{
+.nobreak {
     white-space: pre !important;
 }
 
-.caption{
-	text-align: center;
-  margin-top: 2px;
-  font-size: 0.9rem;
+.caption {
+    text-align: center;
+    margin-top: 2px;
+    font-size: 0.9rem;
 }
 
-.center{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }

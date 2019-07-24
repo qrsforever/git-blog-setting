@@ -19,13 +19,6 @@ pre code {
     margin-right: auto;
 }
 
-.figure {
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-    margin: 36px auto;
-}
-
 .nobreak {
     white-space: pre !important;
 }
@@ -42,3 +35,11 @@ pre code {
     margin-right: auto;
     text-align: center;
 }
+
+div.figure {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin: 36px auto;
+}
+

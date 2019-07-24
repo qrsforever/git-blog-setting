@@ -2,13 +2,15 @@
 Thumbs.db
 db.json
 *.log
-node_modules/
+node_modules
 public/
 .deploy*/
 source/_drafts/*
-source/assets
+source/_assets
 source/_posts
 
+debug.log
 package-lock.json
+graph-images
 themes/hexo-theme-indigo_org/
 patch/pandoc-filter-graphviz

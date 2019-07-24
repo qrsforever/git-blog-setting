@@ -8,6 +8,7 @@ public/
 source/_drafts/*
 source/_assets
 source/_posts
+source/assets
 
 debug.log
 package-lock.json

@@ -129,7 +129,9 @@ pandoc:
         - standalone:
         - highlight-style: haddock
         - number-offset: 0
+        - columns: 200
         - css: /css/pandoc.css
+        - filter: graphviz.py
     mathEngine: mathjax
 
 # Markdown-it config

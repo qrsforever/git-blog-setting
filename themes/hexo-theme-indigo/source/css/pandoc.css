@@ -1,3 +1,9 @@
+/* div class */
+/* div.xxx { } */
+
+/* div id */
+/* div#id.xxx { } */
+
 /* tag */
 pre {
     overflow-x: scroll;
@@ -7,8 +13,32 @@ pre code {
     white-space: pre;
 }
 
-/* div class */
-/* div.xxx { } */
+.container {
+    max-width: 1220px;
+    margin-left: auto;
+    margin-right: auto;
+}
 
-/* div id */
-/* div#id.xxx { } */
+div.figure{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin: 36px auto;
+}
+
+.nobreak{
+    white-space: pre !important;
+}
+
+.caption{
+	text-align: center;
+  margin-top: 2px;
+  font-size: 0.9rem;
+}
+
+.center{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}

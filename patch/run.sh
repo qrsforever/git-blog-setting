@@ -7,6 +7,7 @@
 # cp ./hexo-renderer-kramed/renderer.js ../node_modules/hexo-renderer-kramed/lib/
 # cp ./kramed/inline.js ../node_modules/kramed/lib/rules/
 cp ./hexo-renderer-mathjax/mathjax.html ../node_modules/hexo-renderer-mathjax/
+cp ./hexo-renderer-pandoc/index.js ../node_modules/hexo-renderer-pandoc/
 cp ./hexo-jupyter-notebook/main.py ../node_modules/hexo-jupyter-notebook/
 cp ./hexo-jupyter-notebook/index.js ../node_modules/hexo-jupyter-notebook/
 cp -arf ./hexo-jupyter-notebook/custom ../node_modules/hexo-jupyter-notebook/

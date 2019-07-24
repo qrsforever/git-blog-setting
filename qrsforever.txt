@@ -18,6 +18,7 @@ npm install hexo-renderer-less --save
 # npm install hexo-renderer-marked --save
 
 # pandoc
+sudo apt isntall pandoc graphviz dot2tex texlive nbconvert
 npm install hexo-renderer-pandoc --save
 
 # markdown-it

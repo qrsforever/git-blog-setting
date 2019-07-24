@@ -48,7 +48,7 @@ def graphviz(key, value, format, meta):
                         remotepath = os.path.join("/assets", filepath)
                     else:
                         localpath = os.path.join(top_path, "source/_assets", filepath)
-                        remotepath = os.path.join(git_path, filepath, git_post)
+                        remotepath = os.path.join(git_path, filepath) + git_post
                     if os.path.exists(localpath):
                         if os.path.exists(localpath + '.' + md5):
                             break

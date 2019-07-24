@@ -18,6 +18,7 @@ from pandocfilters import get_caption, get_extension, get_value
 top_path = os.path.abspath(os.path.dirname(__file__))
 dir_name = 'graph-image'
 git_path = 'https://raw.githubusercontent.com/qrsforever/assets_blog_post/master/'
+git_post = '?sanitize=true'
 
 def graphviz(key, value, format, meta):
     if key == 'CodeBlock':
@@ -47,7 +48,7 @@ def graphviz(key, value, format, meta):
                         remotepath = os.path.join("/assets", filepath)
                     else:
                         localpath = os.path.join(top_path, "source/_assets", filepath)
-                        remotepath = os.path.join(git_path, filepath)
+                        remotepath = os.path.join(git_path, filepath, git_post)
                     if os.path.exists(localpath):
                         if os.path.exists(localpath + '.' + md5):
                             break

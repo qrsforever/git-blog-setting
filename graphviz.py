@@ -29,7 +29,7 @@ def graphviz(key, value, format, meta):
             filetype = get_extension(format, "svg", html="svg", latex="pdf")
             # dest = get_filename4code(graph, code, filetype)
             md5 = hashlib.sha1(code.encode(sys.getfilesystemencoding())).hexdigest()
-            filename, _ = get_value(keyvals, u"filename")
+            filename, _ = get_value(keyvals, u"fileName")
             if filename is None:
                 sys.stderr.write('not set filename in {}\n')
                 exit(-1)

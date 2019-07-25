@@ -43,3 +43,6 @@ pre code {
     margin: 36px auto;
 }
 
+div.sourceCode {
+    background: #f5f5f5;
+}

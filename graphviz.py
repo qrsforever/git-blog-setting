@@ -12,7 +12,7 @@ import hashlib
 
 import pygraphviz
 
-from pandocfilters import toJSONFilter, Para, Image, get_filename4code
+from pandocfilters import toJSONFilter, Para, Image
 from pandocfilters import get_caption, get_extension, get_value
 
 tmp_path = '/tmp/gitblog'
@@ -21,8 +21,6 @@ dir_name = 'graph-image'
 git_path = 'https://raw.githubusercontent.com/qrsforever/assets_blog_post/master/'
 git_post = '?sanitize=true'
 
-
-           
 doc_tmpl = r"""\documentclass[12pt,border=5pt,varwidth=true]{standalone}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
@@ -30,7 +28,7 @@ doc_tmpl = r"""\documentclass[12pt,border=5pt,varwidth=true]{standalone}
 \usepackage{psfrag}
 \begin{document}
     \input{%s}
-    \includegraphics{%s} 
+    \includegraphics{%s}
 \end{document} """
 
 def graphviz(key, value, format, meta):
@@ -40,7 +38,6 @@ def graphviz(key, value, format, meta):
             caption, typef, keyvals = get_caption(keyvals)
             prog, keyvals = get_value(keyvals, u"prog", u"dot")
             filetype = get_extension(format, "svg", html="svg", latex="pdf")
-            # dest = get_filename4code(graph, code, filetype)
             md5 = hashlib.sha1(code.encode(sys.getfilesystemencoding())).hexdigest()
             basename, _ = get_value(keyvals, u"fileName")
             if basename is None:
@@ -111,8 +108,8 @@ def graphviz(key, value, format, meta):
                 finally:
                     break
 
-            image = Image([ident, classes, keyvals], 
-                          caption, 
+            image = Image([ident, classes, keyvals],
+                          caption,
                           [remotepath, typef])
 
             return Para([image])

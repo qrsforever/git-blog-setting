@@ -95,6 +95,7 @@ def graphviz(key, value, format, meta):
                         if density is None:
                             density = "200"
 
+                        # sys.stderr.write('{}/ladot {} {} {} {}'.format(top_path, ladot_file, tmp_path, resolution, density))
                         os.system('{}/ladot {} {} {} {}'.format(top_path, ladot_file, tmp_path, resolution, density))
                         if os.path.exists('%s.png' % os.path.join(tmp_path, basename)):
                             os.system('cp %s.png %s' % (os.path.join(tmp_path, basename), localpath))

@@ -2,14 +2,14 @@
 
 %paststubs = ();
 
-if (@ARGV != 2) {
+if (@ARGV != 4) {
     die "Usage: $0 [infile] [workspace dir] [resolution] [density]";
     }
 
 # switch to workspace dir
 chdir($ARGV[1]) or die "$!";
-$resolution = $ARGV[2]
-$density = $ARGV[3]
+$resolution = $ARGV[2];
+$density = $ARGV[3];
 
 # Open input and output files
 open(INFILE, "<$ARGV[0]");

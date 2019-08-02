@@ -1,11 +1,5 @@
 #!/usr/bin/python3
 
-"""
-Pandoc filter to process code blocks with class "graph" into
-graphviz-generated images.
-Requires pygraphviz, pandocfilters
-"""
-
 import os
 import sys
 import hashlib
@@ -29,7 +23,7 @@ doc_tmpl = r"""\documentclass[12pt,border=5pt,varwidth=true]{standalone}
 \begin{document}
     \input{%s}
     \includegraphics{%s}
-\end{document} """
+\end{document}"""
 
 def graphviz(key, value, format, meta):
     if key == 'CodeBlock':
@@ -78,6 +72,7 @@ def graphviz(key, value, format, meta):
                         g = pygraphviz.AGraph(string=code)
                         g.layout()
                         g.draw(localpath, prog=prog)
+                        os.system('touch %s.%s' % (localpath, md5))
                     else:
                         ladot_file = os.path.join(tmp_path, '{}.ladot'.format(basename))
                         latex_file = os.path.join(tmp_path, '{}.latex'.format(basename))
@@ -99,10 +94,10 @@ def graphviz(key, value, format, meta):
                         os.system('{}/ladot {} {} {} {}'.format(top_path, ladot_file, tmp_path, resolution, density))
                         if os.path.exists('%s.png' % os.path.join(tmp_path, basename)):
                             os.system('cp %s.png %s' % (os.path.join(tmp_path, basename), localpath))
+                            os.system('touch %s.%s' % (localpath, md5))
 
                     sys.stderr.write('Local Path [' + localpath + ']\n')
                     sys.stderr.write('Remote Path [' + remotepath + ']\n')
-                    os.system('touch %s.%s' % (localpath, md5))
                 except Exception as e:
                     sys.stderr.write('{}: not found datapath in meta, please patch/run.sh\n'.format(e))
                     exit(-1)

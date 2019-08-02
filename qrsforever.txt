@@ -59,6 +59,8 @@ https://shomy.top/2016/10/22/hexo-markdown-mathjax/
 # 方式一: {% asset_img [class names] slug [width] [height] [title text [alt text]]%}
 # 方式二: hexo-asset-image 
 
+# 依赖 pstoimage latex dvips
+
 # 使用国内镜像                                                 
 npm config set registry https://registry.npm.taobao.org
 npm config get registry

@@ -28,6 +28,9 @@ menu:
         text: Stocktech
         url: https://zytforever.github.io
         target: _blank
+    user-circle:
+        text: Author
+        url: /2017/08/30/CV
 
 # 头像url
 avatar: /img/avatar.jpg

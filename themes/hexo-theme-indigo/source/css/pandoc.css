@@ -50,12 +50,21 @@ div.sourceCode {
 img.float-left {
     display:inline;
     float:left;
-    margin:5px 15px 5px 0;
+    margin:5px 5px 5px 5px;
     max-width: 47%;
 }
 
 img.float-right {
+    display:inline;
     float:right;
-    margin:5px 0 5px 15px;
+    margin:5px 5px 5px 5px;
     max-width: 47%;
+}
+
+div.tableWidth80 table {
+    width: 80%;
+}
+
+div.tableBorder0 table, div.tableBorder0 table td, div.tableBorder0 table th {
+    border: 0;
 }

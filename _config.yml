@@ -128,11 +128,12 @@ pandoc:
     extra:
         - standalone:
         - highlight-style: haddock
-        - number-offset: 0
         - columns: 200
         - css: /css/pandoc.css
         - filter: graphviz.py
     mathEngine: mathjax
+
+# - number-offset: 0
 
 # Markdown-it config
 ## Docs: https://github.com/celsomiranda/hexo-renderer-markdown-it/wiki/

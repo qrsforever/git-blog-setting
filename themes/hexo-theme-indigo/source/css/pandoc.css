@@ -68,3 +68,20 @@ div.tableWidth80 table {
 div.tableBorder0 table, div.tableBorder0 table td, div.tableBorder0 table th {
     border: 0;
 }
+
+dl {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+
+dt {
+    display: block;
+}
+
+dd {
+    display: block;
+    margin-inline-start: 40px;
+}

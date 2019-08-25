@@ -43,6 +43,15 @@ pre code {
     margin: 36px auto;
 }
 
+/* workaround: codeblock table width */
+.post-content .highlight {
+    background: #f5f5f5;
+}
+
+.post-content .highlight td {
+    text-align: left;
+}
+
 div.sourceCode {
     background: #f5f5f5;
 }

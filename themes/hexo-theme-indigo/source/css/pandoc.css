@@ -107,3 +107,8 @@ dd {
     border: 1px solid transparent;
     border-radius: 2px;
 }
+
+.post-content .header-section-number {
+    font-weight: 600;
+    color: #3c76ff;
+}

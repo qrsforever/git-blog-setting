@@ -8,7 +8,7 @@ import re
 from nbconvert import HTMLExporter
 
 
-def main(asset_dir, jupyter_file):
+def main(asset_dir, jupyter_file, inc_height):
     """
     convert jupyter file to html
     :params jupyter_file: juptyer file path
@@ -19,6 +19,8 @@ def main(asset_dir, jupyter_file):
     # lidong add
     import random
     import os
+    if inc_height == "undefined":
+        inc_height = "60"
     num = random.randint(1111, 9999)
     dn = os.path.dirname(asset_dir)
     if os.path.exists(dn + ".md"):
@@ -39,14 +41,14 @@ def main(asset_dir, jupyter_file):
 <script>
 $("#ipynb-%d").load( function() {
 var h = $("#ipynb-%d").contents().find("#notebook").height();
-document.getElementById('ipynb-%d').height= h + 60;
+document.getElementById('ipynb-%d').height= h + %s;
 })
 </script> 
-    """ % (num, restr.replace("\"", "'"), num, num, num)
+    """ % (num, restr.replace("\"", "'"), num, num, num, inc_height)
     # print(sys.version)
     # template = '2341'
     print(re.sub(r'<a.*?\/a>', '', template))
 
-main(sys.argv[1], sys.argv[2])
+main(sys.argv[1], sys.argv[2], sys.argv[3])
 
 #  document.getElementById('ipynb-%d').height=$("#ipynb-%d").contents().find("#notebook").height()+100;

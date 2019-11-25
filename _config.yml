@@ -86,7 +86,7 @@ theme: hexo-theme-indigo
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
     type: git
-    repo: git@github.com:qrsforever/qrsforever.github.io.git
+    repo: https://github.com/qrsforever/qrsforever.github.io.git
     branch: master
 
 feed:

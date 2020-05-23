@@ -20,8 +20,12 @@ npm install hexo-renderer-less --save
 # http://manpages.ubuntu.com/manpages/bionic/man1/pstoimg.1.html
 # 依赖 pstoimage latex dvips: apt install latex2html
 # pandoc
-sudo apt install pandoc graphviz dot2tex texlive nbconvert latex2html
+sudo apt install pandoc texlive nbconvert
 npm install hexo-renderer-pandoc --save
+sudo apt install graphviz graphviz-dev    
+sudo apt install dot2tex latex2html dvipng
+sudo pip3 install pygraphviz pandocfilters
+
 
 # markdown-it
 # npm un hexo-renderer-marked --save
